@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Shopping Cart</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+      rel="stylesheet"
+    />
+    <link href="style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <section >
+      <div id="home" class="container">
+        <div class="cart">
+          <div class="col-md-12 col-lg-10 mx-auto">
+            <div class="cart-item">
+              <div class="row">
+                <div class="col-md-7 center-item">
+                  <img src="images/product-1.png" alt="" />
+                  <h5>iPhone 11 128GB Black</h5>
+                </div>
+
+                <div class="col-md-5 center-item">
+                  <div class="input-group number-spinner">
+                    <button onclick="handleProductChange( 'phone', false)" class="btn btn-default">
+                      <i  class="fas fa-minus"></i>
+                    </button>
+                    <input id="phone-Count"
+                      type="text"
+                      class="form-control text-center"
+                      value="1"
+                    />
+                    <button onclick=" handleProductChange('phone',true);" class="btn btn-default">
+                      <i  class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                  <h5 id="phone-Price">$1219</h5>
+                  <img src="images/remove.png" alt="" class="remove-item" />
+                </div>
+              </div>
+            </div>
+
+            <div class="cart-item">
+              <div class="row">
+                <div class="col-md-7 center-item mx-auto">
+                  <img src="images/product-2.png" alt="" />
+                  <h5>iPhone 11 Silicone Case - Black</h5>
+                </div>
+                <div class="col-md-5 center-item">
+                  <div class="input-group number-spinner">
+                    <button  onclick="handleProductChange( 'case', false)" class="btn btn-default">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <input id="case-Count"
+                      type="text"
+                      class="form-control text-center"
+                      value="1"
+                    />
+                    <button onclick="handleProductChange( 'case', true)" class="btn btn-default">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                  <h5 id="case-Price">$59</h5>
+                  <img src="images/remove.png" alt="" class="remove-item" />
+                </div>
+              </div>
+            </div>
+
+            <div class="cart-item">
+              <div class="row">
+                <div class="col-md-8">
+                  <h5>Subtotal:</h5>
+                  <h5>Tax:</h5>
+                  <h5>Total:</h5>
+                </div>
+
+                <div class="col-md-4 status">
+                  <h5 id="subtotal">$1,278</h5>
+                  <h5 id="tax">$0</h5>
+                  <h5 id="total">$1,278</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 pt-4 pb-4">
+              <button id="check-out" type="button" class="btn btn-success check-out">
+                Check Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    
+
+     <section >
+      <div id="next-page" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">TOTAL COST</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p id="modal-cost">Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+     </section>
+    <script>  
+    
+        // document.getElementById('phone-increase').addEventListener('click',function () {
+         
+          
+        // // })
+        // document.getElementById('phone-decrease').addEventListener('click',function () {
+        //   ;
+        // })
+        
+
+
+        function handleProductChange ( product, isIncrease) {
+        let productCount=document.getElementById(product + '-Count');
+        let productCountInt=parseInt(productCount.value);
+        if (isIncrease==true){
+          productCountInt=productCountInt +1;
+ 
+        } 
+        if (isIncrease==false && productCountInt >0 ){
+          productCountInt=productCountInt-1;
+        }
+
+        productCount.value =productCountInt;
+        let productTotal = 0;
+        if(product== 'phone'){
+          productTotal = productCountInt * 1219;
+        }
+        if (product=='case'){
+          productTotal = productCountInt * 59;
+          
+        }
+
+
+        // let phonePriceCount = productCountInt *  1219;
+        document.getElementById(product+'-Price').innerText ='$' +  productTotal;
+        let  Subtotal =document.getElementById('')
+
+
+        calculateTotal()
+        
+
+        }
+
+        function calculateTotal() {
+          let phoneInput =document.getElementById('phone-Count');
+          let phoneCount = parseInt(phoneInput.value);
+
+          let caseInput =document.getElementById('case-Count');
+          let caseCount = parseInt(caseInput.value); 
+
+          let subtotalCost =phoneCount *1219 + caseCount *59;
+         
+          let totalCost =subtotalCost;
+          let tax = totalCost*.1;
+          tax=parseInt(tax);
+          totalCost=totalCost+tax;
+          
+          document.getElementById('subtotal').innerText='$'+ subtotalCost;
+          document.getElementById('tax').innerText='$'+tax;
+          document.getElementById('total').innerText='$' +totalCost
+          
+        }
+        var nextPage = document.getElementById('check-out').addEventListener('click', function () {
+            const loginArea = document.getElementById('home').style.display="none";
+            const tranctionArea =document.getElementById('next-page').style.display="block"
+
+
+            let phoneInput =document.getElementById('phone-Count');
+          let phoneCount = parseInt(phoneInput.value);
+
+          let caseInput =document.getElementById('case-Count');
+          let caseCount = parseInt(caseInput.value); 
+
+          let subtotalCost =phoneCount *1219 + caseCount *59;
+         
+          let totalCost =subtotalCost;
+          let tax = totalCost*.1;
+          tax=parseInt(tax);
+          totalCost=totalCost+tax;
+          
+
+
+            document.getElementById('modal-cost').innerText='Only ' +'$' +totalCost + '  Doller' 
+        })
+      //   document.getElementById('phone-increase').addEventListener('click',function () {
+      //   let phoneCount=document.getElementById('phoneCount');
+      //   let phoneCountInt=parseInt(phoneCount.value);
+      //   let finalValue=phoneCountInt + 1;
+      //   document.getElementById('phoneCount').value=finalValue;
+
+      //   let phonePrice =document.getElementById('phonePrice');
+      //   let phonePriceInt = parseInt(phonePrice.innerText)
+      //   let phonePriceCount = finalValue  *  1219;
+      //   document.getElementById('phonePrice').innerText ='$' +  phonePriceCount
+    
+      // })
+
+      // document.getElementById('phone-decrease').addEventListener('click',function () {
+        
+      //   let phoneCount=document.getElementById('phoneCount');
+      //   let phoneCountInt=parseInt(phoneCount.value);
+      //   let finalValue=phoneCountInt -1;
+      //   document.getElementById('phoneCount').value=finalValue;
+
+      //   let phonePrice =document.getElementById('phonePrice');
+      //   let phonePriceInt = parseInt(phonePrice.innerText)
+      //   let phonePriceCount = finalValue  *  1219;
+      //   document.getElementById('phonePrice').innerText ='$' + phonePriceCount;
+      // }) 
+      
+
+    </script>
+  </body>
+</html>
